@@ -3,7 +3,7 @@
 
 Integrates the World's Fastest and Smartest open models:
 - Groq (Llama-3-70B): Lightspeed intelligence (300+ tokens/s)
-- Gemini 2.5 Flash Image (Nano Banana): Premium Image Generation
+- Gemini 2.5 Flash Image: Premium Image Generation
 - Pollinations AI: Fallback Image Generation
 - Document Generator: Professional PDF/Word creation
 """
@@ -27,11 +27,11 @@ except ImportError:
 
 # Import Nano Banana image generator
 try:
-    from .nano_banana import NanoBananaImageGenerator
+    from .image_generator import NanoBananaImageGenerator as ImageGenerator
     NANO_BANANA_AVAILABLE = True
 except ImportError:
     NANO_BANANA_AVAILABLE = False
-    print("[WARNING] Nano Banana image generator not available")
+    print("[WARNING] Image generator not available")
 
 # Load environment variables
 load_dotenv()
@@ -69,17 +69,17 @@ class SuperAdvancedOrchestrator:
             except Exception as e:
                 print(f"[ERROR] Groq init failed: {e}")
         
-        # Initialize Nano Banana (Image Generation)
+        # Initialize Image Generator
         if NANO_BANANA_AVAILABLE:
             try:
-                self.nano_banana = NanoBananaImageGenerator()
-                print("[OK] Nano Banana (Gemini 2.5 Flash Image) initialized")
+                self.image_generator = ImageGenerator()
+                print("[OK] Image Generator (Gemini 2.5 Flash Image) initialized")
             except Exception as e:
-                print(f"[ERROR] Nano Banana init failed: {e}")
-                self.nano_banana = None
+                print(f"[ERROR] Image Generator init failed: {e}")
+                self.image_generator = None
                 print("[INFO] Falling back to Pollinations AI for image generation")
         else:
-            self.nano_banana = None
+            self.image_generator = None
             print("[INFO] Using Pollinations AI for image generation")
 
     def _detect_task_type(self, prompt: str) -> str:
@@ -250,7 +250,7 @@ class SuperAdvancedOrchestrator:
     async def _generate_image(self, prompt: str) -> Dict[str, Any]:
         """Generate image using Gemini 2.5/Imagen 3 (Direct Implementation)"""
         
-        print(f"[NANO BANANA] Orchestrator generating: {prompt[:50]}...")
+        print(f"[IMAGEN] Orchestrator generating: {prompt[:50]}...")
         
         # 1. Cleaning
         clean_prompt = prompt.lower()
@@ -265,7 +265,7 @@ class SuperAdvancedOrchestrator:
             key = os.getenv("GEMINI_API_KEY")
             
             if not key:
-                print("[NANO BANANA] [ERROR] No Gemini Key found")
+                print("[IMAGEN] [ERROR] No Gemini Key found")
                 return await self._generate_image_pollinations(prompt)
 
             headers = {"Content-Type": "application/json"}
@@ -274,7 +274,7 @@ class SuperAdvancedOrchestrator:
                 "parameters": {"sampleCount": 1, "aspectRatio": "1:1"}
             }
             
-            print(f"[NANO BANANA] [API] Calling Gemini 2.0 Flash Exp...")
+            print(f"[IMAGEN] [API] Calling Gemini 2.0 Flash Exp...")
             
             # Synchronous request (safe & simple)
             response = requests.post(f"{url}?key={key}", headers=headers, json=payload, timeout=25)
@@ -286,7 +286,7 @@ class SuperAdvancedOrchestrator:
                         if "bytesBase64Encoded" in pred:
                             b64 = pred["bytesBase64Encoded"]
                             data_uri = f"data:image/png;base64,{b64}"
-                            print(f"[NANO BANANA] [SUCCESS] Success! Image generated.")
+                            print(f"[IMAGEN] [SUCCESS] Success! Image generated.")
                             return {
                                 "response": f"![Generated Image]({data_uri})",
                                 "reasoning": ["Generated with Gemini 2.0 Flash Exp"],
@@ -295,12 +295,12 @@ class SuperAdvancedOrchestrator:
                             }
             
             # If we get here, Google failed (Quota or Error)
-            print(f"[NANO BANANA] [WARNING] Google API failed: {response.status_code} - {response.text[:100]}")
+            print(f"[IMAGEN] [WARNING] Google API failed: {response.status_code} - {response.text[:100]}")
             print("[FALLBACK] Switching to Pollinations...")
             return await self._generate_image_pollinations(prompt)
 
         except Exception as e:
-            print(f"[NANO BANANA] [ERROR] Critical Error: {e}")
+            print(f"[IMAGEN] [ERROR] Critical Error: {e}")
             return await self._generate_image_pollinations(prompt)
     
     async def _generate_image_pollinations(self, prompt: str) -> Dict[str, Any]:
@@ -346,7 +346,7 @@ class SuperAdvancedOrchestrator:
             else:
                 return {
                     "response": f"[WARNING] Image generation failed. Please try again!",
-                    "reasoning": ["Both Nano Banana and Pollinations failed"],
+                    "reasoning": ["Both Image Generator and Pollinations failed"],
                     "model_used": "error",
                     "confidence": 0.0
                 }
@@ -388,10 +388,10 @@ class SuperAdvancedOrchestrator:
             "capabilities": ["text", "code", "image", "document"]
         }
         
-        # Add Nano Banana status
-        if self.nano_banana:
+        # Add Image Generator status
+        if self.image_generator:
             status["image_generator"] = {
-                "name": "Gemini 2.5 Flash Image (Nano Banana)",
+                "name": "Gemini 2.5 Flash Image",
                 "status": "operational",
                 "free": True,
                 "daily_limit": 500

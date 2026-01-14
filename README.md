@@ -1,327 +1,77 @@
-# 🧠 OmniMind - Advanced AI Agent
+# OmniMind: The Sovereign AI Architecture
 
-**The Most Advanced AI Agent System** - Superior to ChatGPT and Gemini with multi-model orchestration, document processing, OCR, and transparent reasoning.
+OmniMind is a state-of-the-art, modular AI agent system designed for autonomous execution, multi-modal capabilities (Text, Image, Document), and privacy-focused local operation options. It bridges the gap between massive cloud intelligence and sovereign local control.
 
-![Status](https://img.shields.io/badge/status-operational-success)
-![Version](https://img.shields.io/badge/version-2.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+## 🚀 Core Capabilities
 
-## ✨ Why OmniMind is Superior
+### 1. Advanced Reasoning Engine
+- **Global Intelligence**: Integration with Llama-3-70B (via Groq) for high-speed, 300+ tokens/s inference.
+- **Local Sovereignty**: Support for running local GGUF models (Mistral, Llama 3) via `ollama` or native python bindings.
+- **Agentic Routing**: Intelligent orchestrator that dynamically selects the best tool or model for the task (Coding vs. Creative vs. Analytical).
 
-### 🎯 **Multi-Model Intelligence**
-- Uses **multiple AI models simultaneously** (Gemini, GPT-4, Claude)
-- Compares outputs and selects the best response
-- **Better accuracy** than single-model systems
+### 2. Multi-Modal Generation
+- **Image Synthesis**: Native integration with Google's Gemini 2.5 Flash / Imagen 3 for high-fidelity image generation.
+- **Fallback Redundancy**: Automatic failover to Pollinations AI if primary image services encounter quotas or errors.
+- **Document Creation**: Automated generation of professional PDF and Word documents with proper formatting.
 
-### 💻 **Advanced Code Generation**
-- Generates **production-ready code** with error handling
-- Includes comprehensive documentation and type hints
-- Follows industry best practices
-- Provides optimization suggestions
+### 3. RAG & Memory (Retrieval Augmented Generation)
+- **Local Vector Store**: Built-in support for embedding documents and retrieving context without sending data to third parties.
+- **Semantic Search**: Understands the intent of queries rather than just keyword matching.
 
-### 🧠 **Transparent Reasoning**
-- **Chain-of-thought** reasoning visible to users
-- See exactly how the AI makes decisions
-- Multi-step problem decomposition
-- Logical validation of answers
-
-### 📄 **Powerful Document Processing**
-- **PDF**: Extract text, tables, and images
-- **DOCX**: Full document parsing
-- **Excel/CSV**: Data extraction and analysis
-- **Images**: OCR text extraction from photos
-
-### 🔍 **OCR Capabilities**
-- Extract text from scanned documents
-- Read text from photos and screenshots
-- Analyze diagrams and charts
-- Process handwritten notes (with good quality)
-
-### ⚡ **Lightweight & Fast**
-- **Zero GPU usage** - pure API calls
-- **< 500 MB RAM** usage
-- **< 3 second** response times
-- Won't hang or slow down your system
-
-## 🚀 Quick Start
+## 🛠️ Installation
 
 ### Prerequisites
-- **Python 3.8+**
-- **Node.js 16+**
-- **Windows OS** (scripts provided for Windows)
+- Python 3.10+
+- Git
 
-### Installation
-
-1. **Clone or download this repository**
-
-2. **Run setup:**
+### Setup
+1. Clone the repository:
    ```bash
-   setup.bat
+   git clone https://github.com/vasistacv/AI_Personal.git
+   cd AI_Personal
    ```
 
-3. **Get a FREE Gemini API key:**
-   - Visit: https://makersuite.google.com/app/apikey
-   - Click "Create API Key"
-   - Copy the key
+2. Run the automated setup script:
+   - **Windows**: Double-click `setup.bat` or run:
+     ```bash
+     .\setup.bat
+     ```
 
-4. **Configure environment:**
-   ```bash
-   copy .env.example .env
-   ```
-   
-   Edit `.env` and add your API key:
-   ```
-   GEMINI_API_KEY=your_actual_api_key_here
-   ```
+3. Configure Environment:
+   - The setup script creates a `.env` file.
+   - Open `.env` and add your API keys (Groq, Gemini, HuggingFace).
 
-5. **Launch the system:**
-   ```bash
-   launch.bat
-   ```
+## 🖥️ Usage
 
-6. **Open your browser:**
-   ```
-   http://localhost:3000
-   ```
-
-## 📚 Features in Detail
-
-### 1. **Multi-Model Chat**
-Ask anything and get superior responses:
+### Launching the System
+Run the launch script to start the backend orchestrator and the frontend UI:
+```bash
+.\launch.bat
 ```
-"Write a Python function to calculate fibonacci numbers with memoization"
-"Explain quantum computing in simple terms"
-"Create a REST API with FastAPI and authentication"
+This will start:
+- The AI Core Server
+- The Next.js Web Interface (default: `http://localhost:3000`)
+
+### Developer Mode
+For direct interaction with the core agent in a terminal:
+```bash
+python launch.py
 ```
 
-### 2. **Document Analysis**
-Upload documents and ask questions:
-- PDF reports
-- Word documents
-- Excel spreadsheets
-- CSV data files
+## 📂 Project Structure
 
-### 3. **OCR Text Extraction**
-Upload images to extract text:
-- Scanned documents
-- Photos of text
-- Screenshots
-- Diagrams with labels
+- `ai_core/`: The brain of the operation. Contains the `Orchestrator`, `ImageGenerator`, and model handlers.
+- `ui/`: Modern Next.js React frontend with a professional, dark-mode design.
+- `generated_documents/`: Output directory for created PDFs and Reports.
+- `launch.bat`: One-click entry point.
 
-### 4. **Code Generation**
-Get production-ready code:
-- Full error handling
-- Type hints and documentation
-- Best practices included
-- Optimization suggestions
-
-### 5. **Reasoning Transparency**
-See how the AI thinks:
-- Step-by-step reasoning
-- Decision-making process
-- Alternative approaches
-- Confidence levels
-
-## 🎨 User Interface
-
-### **Professional Light Theme**
-- Clean, modern design
-- Easy on the eyes
-- Professional aesthetics
-- Smooth animations
-
-### **Dark Mode**
-- Toggle between light and dark
-- Comfortable for night use
-- Reduced eye strain
-
-### **Responsive Design**
-- Works on desktop, tablet, mobile
-- Adaptive layouts
-- Touch-friendly controls
-
-## 🔧 System Architecture
-
-```
-┌─────────────────┐
-│   Frontend UI   │  (Next.js + React)
-│  localhost:3000 │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│   Backend API   │  (FastAPI)
-│  127.0.0.1:8000 │
-└────────┬────────┘
-         │
-         ├──────────────┐
-         ▼              ▼
-┌──────────────┐  ┌──────────────┐
-│ Multi-Model  │  │  Document    │
-│ Orchestrator │  │  Processor   │
-└──────┬───────┘  └──────┬───────┘
-       │                 │
-       ▼                 ▼
-┌──────────────┐  ┌──────────────┐
-│ Gemini API   │  │ OCR Engine   │
-│ GPT-4 API    │  │ PDF Parser   │
-│ Claude API   │  │ DOCX Parser  │
-└──────────────┘  └──────────────┘
-```
-
-## 📖 API Endpoints
-
-### **Chat**
-```http
-POST /api/chat
-Content-Type: application/json
-
-{
-  "message": "Your question here",
-  "use_reasoning": true
-}
-```
-
-### **Upload Document**
-```http
-POST /api/upload
-Content-Type: multipart/form-data
-
-file: <your_file>
-```
-
-### **Chat with Document**
-```http
-POST /api/chat-with-document
-Content-Type: multipart/form-data
-
-message: "Analyze this document"
-file: <your_file>
-```
-
-### **OCR**
-```http
-POST /api/ocr
-Content-Type: multipart/form-data
-
-file: <image_file>
-```
-
-## 🎯 Use Cases
-
-### **For Developers**
-- Generate production-ready code
-- Debug and optimize existing code
-- Learn best practices
-- Get architecture suggestions
-
-### **For Students**
-- Understand complex topics
-- Get step-by-step explanations
-- Analyze research papers
-- Extract data from documents
-
-### **For Professionals**
-- Analyze business documents
-- Extract data from reports
-- Process scanned documents
-- Automate document workflows
-
-### **For Researchers**
-- Analyze academic papers
-- Extract tables and data
-- Process multiple documents
-- Get detailed explanations
-
-## 🔒 Privacy & Security
-
-- **Local Processing**: Your data stays on your computer
-- **API Calls**: Only sent to AI providers (Google, OpenAI, Anthropic)
-- **No Storage**: Documents processed temporarily and deleted
-- **Encrypted Keys**: API keys stored locally in .env file
-
-## 💡 Tips & Tricks
-
-1. **Use specific prompts** for better code generation
-2. **Upload multiple documents** for comprehensive analysis
-3. **Enable reasoning** to understand AI decisions
-4. **Try different models** for comparison
-5. **Use OCR** for scanned documents and photos
-
-## 🛠️ Troubleshooting
-
-### **Backend won't start**
-- Check if Python is installed: `python --version`
-- Verify virtual environment: `ai_sys\Scripts\activate.bat`
-- Check API key in `.env` file
-
-### **Frontend won't start**
-- Check if Node.js is installed: `node --version`
-- Run `npm install` in `ui` folder
-- Check port 3000 is not in use
-
-### **API errors**
-- Verify Gemini API key is correct
-- Check internet connection
-- Ensure API key has proper permissions
-
-### **OCR not working**
-- Install Tesseract OCR from: https://github.com/UB-Mannheim/tesseract/wiki
-- Verify installation path in `document_processor.py`
-
-## 📊 Performance
-
-| Metric | Value |
-|--------|-------|
-| Response Time | < 3 seconds |
-| Memory Usage | < 500 MB |
-| CPU Usage | < 10% idle |
-| GPU Usage | 0% (API-based) |
-| Startup Time | < 5 seconds |
-
-## 🌟 Comparison
-
-| Feature | OmniMind | ChatGPT | Gemini |
-|---------|----------|---------|--------|
-| Multi-Model | ✅ | ❌ | ❌ |
-| Reasoning Chain | ✅ | ❌ | ❌ |
-| Document Processing | ✅ | Limited | Limited |
-| OCR | ✅ | ❌ | ❌ |
-| Code Quality | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Privacy | ✅ Local | ❌ Cloud | ❌ Cloud |
-| Customizable | ✅ | ❌ | ❌ |
-| Cost | Pay-per-use | Subscription | Free/Paid |
+## 🛡️ Privacy & Security
+OmniMind is designed with privacy in mind.
+- **Local First**: Prioritizes local execution where configured.
+- **Key Safety**: API keys are stored only in `.env` and never committed (enforced by strict `.gitignore`).
 
 ## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest features
-- Submit pull requests
-- Improve documentation
+Contributions are welcome. Please ensure all pull requests follow the professional coding standards found in `ai_core/`.
 
 ## 📄 License
-
-MIT License - feel free to use and modify!
-
-## 🙏 Acknowledgments
-
-- **Google Gemini** for powerful AI capabilities
-- **OpenAI** for GPT-4 API
-- **Anthropic** for Claude API
-- **FastAPI** for excellent backend framework
-- **Next.js** for modern frontend framework
-
-## 📞 Support
-
-If you encounter issues:
-1. Check the troubleshooting section
-2. Review the documentation
-3. Check API status at http://127.0.0.1:8000/api/status
-4. Verify your API keys are correct
-
----
-
-**Built with ❤️ for superior AI experiences**
-
-*OmniMind - Where Intelligence Meets Transparency*
+MIT License. See `LICENSE` for details.

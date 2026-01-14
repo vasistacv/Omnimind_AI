@@ -1,5 +1,5 @@
 """
-Nano Banana Image Generator - SAFE VERSION
+OmniMind Image Generator
 Uses Gemini/Imagen 3 API via simple REST calls.
 """
 
@@ -12,14 +12,14 @@ class NanoBananaImageGenerator:
     def __init__(self):
         self.api_key = os.getenv("GEMINI_API_KEY")
         if not self.api_key:
-            print("[NANO BANANA] ⚠️ No API Key found")
-        print("[NANO BANANA] Initialized (Safe Mode)")
+            print("[IMAGE GEN] ⚠️ No API Key found")
+        print("[IMAGE GEN] Initialized")
 
     async def generate_image(self, prompt, aspect_ratio="1:1", num_images=1, safety_filter="default"):
         """
         Generate image (async wrapper around sync call to prevent 500s)
         """
-        print(f"[NANO BANANA] 🍌 Processing: {prompt[:50]}...")
+        print(f"[IMAGE GEN] Processing: {prompt[:50]}...")
         
         try:
             # We use a direct synchronous call here to ensure stability.
@@ -27,7 +27,7 @@ class NanoBananaImageGenerator:
             # but for a single-user local app, this blocks for ~5s which is fine and safer.
             return self._generate_sync(prompt, aspect_ratio, num_images)
         except Exception as e:
-            print(f"[NANO BANANA] ❌ Error in generate_image wrapper: {e}")
+            print(f"[IMAGE GEN] ❌ Error in generate_image wrapper: {e}")
             traceback.print_exc()
             return {"success": False, "error": str(e)}
 
@@ -45,7 +45,7 @@ class NanoBananaImageGenerator:
                 }
             }
             
-            print(f"[NANO BANANA] 📡 Calls Imagen 3 API...")
+            print(f"[IMAGE GEN] 📡 Calls Imagen 3 API...")
             
             response = requests.post(
                 f"{url}?key={self.api_key}",
@@ -65,12 +65,12 @@ class NanoBananaImageGenerator:
                             images.append({"url": f"data:image/png;base64,{b64}"})
                     
                     if images:
-                        print(f"[NANO BANANA] ✅ Success! Generated {len(images)} images")
+                        print(f"[IMAGE GEN] ✅ Success! Generated {len(images)} images")
                         return {"success": True, "images": images}
             
             # Handle Errors
-            print(f"[NANO BANANA] ⚠️ API Status: {response.status_code}")
-            print(f"[NANO BANANA] Response: {response.text[:200]}")
+            print(f"[IMAGE GEN] ⚠️ API Status: {response.status_code}")
+            print(f"[IMAGE GEN] Response: {response.text[:200]}")
             
             return {
                 "success": False, 
@@ -78,6 +78,6 @@ class NanoBananaImageGenerator:
             }
             
         except Exception as e:
-            print(f"[NANO BANANA] ❌ Error in _generate_sync: {e}")
+            print(f"[IMAGE GEN] ❌ Error in _generate_sync: {e}")
             traceback.print_exc()
             return {"success": False, "error": str(e)}
