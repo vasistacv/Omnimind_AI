@@ -69,3 +69,6 @@ python launch.py
 OmniMind is designed with privacy in mind.
 - **Local First**: Prioritizes local execution where configured.
 - **Key Safety**: API keys are stored only in `.env` and never committed.
+
+## Author
+Developed by Vashista C V
